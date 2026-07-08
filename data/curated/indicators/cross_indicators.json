@@ -1,0 +1,83 @@
+{
+  "methode": "Croisement sur le cycle diurne (heure de la journee, 0-23).",
+  "couverture_heures": {
+    "weather": 24,
+    "pollution": 24,
+    "bikes": 1
+  },
+  "q1_meteo_pollution": {
+    "disponible": true,
+    "n_heures": 24,
+    "correlations": {
+      "pm25": {
+        "temperature_c": -0.057,
+        "humidity_pct": 0.065,
+        "wind_speed_ms": 0.002
+      },
+      "pm10": {
+        "temperature_c": 0.355,
+        "humidity_pct": -0.346,
+        "wind_speed_ms": 0.322
+      },
+      "no2": {
+        "temperature_c": 0.156,
+        "humidity_pct": -0.152,
+        "wind_speed_ms": 0.114
+      },
+      "o3": {
+        "temperature_c": 0.929,
+        "humidity_pct": -0.945,
+        "wind_speed_ms": 0.874
+      },
+      "so2": {
+        "temperature_c": -0.178,
+        "humidity_pct": 0.18,
+        "wind_speed_ms": -0.195
+      },
+      "co": {
+        "temperature_c": -0.0,
+        "humidity_pct": 0.021,
+        "wind_speed_ms": 0.056
+      }
+    }
+  },
+  "q2_meteo_velos": {
+    "disponible": false,
+    "n_heures": 1,
+    "message": "Moins de 5 heures distinctes : recouvrement insuffisant."
+  },
+  "q3_conditions_favorables": {
+    "definition_conditions_favorables": {
+      "temperature_c": "[12, 25]",
+      "precip_mm": "= 0",
+      "wind_speed_ms": "< 6"
+    },
+    "part_heures_favorables_pct": 39.27,
+    "part_favorable_par_saison_pct": {
+      "Ete": 75.33,
+      "Hiver": 1.95,
+      "Printemps": 37.88
+    }
+  },
+  "q4_triple_interaction": {
+    "n_heures_communes": 1,
+    "profil_diurne": [
+      {
+        "hod": 8,
+        "temperature_c": 11.77,
+        "humidity_pct": 77.57,
+        "wind_speed_ms": 4.08,
+        "visibility_m": 9211.92,
+        "precip_mm": 0.11,
+        "co": 1.5,
+        "no2": 82.38,
+        "o3": 77.38,
+        "pm10": 42.66,
+        "pm25": 27.26,
+        "so2": 11.61,
+        "bikes_available": 7.46,
+        "occupancy_rate": 0.39
+      }
+    ]
+  }
+}

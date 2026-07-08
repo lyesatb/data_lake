@@ -6,15 +6,13 @@ __pycache__/
 venv/
 .ipynb_checkpoints/
 
-# Data lake content (kept out of git, structure preserved via .gitkeep)
-data/raw/**
-data/processed/**
-data/curated/**
-!data/**/.gitkeep
-
-# But keep the small demo/sample indicators so reviewers can see results
-!data/curated/indicators/**
-!data/curated/reports/**
+# Data lake : les zones "raw" et "processed" (potentiellement volumineuses) sont
+# exclues du depot ; seule la zone "curated" (indicateurs + rapports de demo)
+# est versionnee afin que les resultats soient visibles directement dans le repo.
+data/raw/
+data/processed/
+!data/raw/.gitkeep
+!data/processed/.gitkeep
 
 # OS / editor
 .DS_Store

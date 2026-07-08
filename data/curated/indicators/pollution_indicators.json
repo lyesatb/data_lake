@@ -1,0 +1,510 @@
+{
+  "n_mesures": 5328,
+  "n_villes": 12,
+  "polluants": [
+    "co",
+    "no2",
+    "o3",
+    "pm10",
+    "pm25",
+    "so2"
+  ],
+  "mode_source": [
+    "simulated"
+  ],
+  "q1_moyenne_par_ville": [
+    {
+      "city": "Bordeaux",
+      "co": 1.32,
+      "no2": 55.0,
+      "o3": 80.11,
+      "pm10": 37.31,
+      "pm25": 24.09,
+      "so2": 10.18
+    },
+    {
+      "city": "Grenoble",
+      "co": 1.34,
+      "no2": 55.76,
+      "o3": 75.91,
+      "pm10": 37.78,
+      "pm25": 24.12,
+      "so2": 10.29
+    },
+    {
+      "city": "Lille",
+      "co": 1.8,
+      "no2": 75.78,
+      "o3": 109.62,
+      "pm10": 52.12,
+      "pm25": 33.34,
+      "so2": 14.51
+    },
+    {
+      "city": "Lyon",
+      "co": 1.84,
+      "no2": 76.22,
+      "o3": 110.78,
+      "pm10": 51.55,
+      "pm25": 34.09,
+      "so2": 14.35
+    },
+    {
+      "city": "Marseille",
+      "co": 1.81,
+      "no2": 75.91,
+      "o3": 112.59,
+      "pm10": 52.34,
+      "pm25": 33.3,
+      "so2": 14.41
+    },
+    {
+      "city": "Montpellier",
+      "co": 1.3,
+      "no2": 54.2,
+      "o3": 80.84,
+      "pm10": 37.88,
+      "pm25": 24.02,
+      "so2": 10.4
+    },
+    {
+      "city": "Nantes",
+      "co": 1.3,
+      "no2": 54.28,
+      "o3": 76.85,
+      "pm10": 37.99,
+      "pm25": 24.17,
+      "so2": 10.24
+    },
+    {
+      "city": "Nice",
+      "co": 1.32,
+      "no2": 53.53,
+      "o3": 78.06,
+      "pm10": 38.52,
+      "pm25": 23.7,
+      "so2": 10.34
+    },
+    {
+      "city": "Paris",
+      "co": 1.82,
+      "no2": 76.89,
+      "o3": 107.82,
+      "pm10": 52.56,
+      "pm25": 33.66,
+      "so2": 13.99
+    },
+    {
+      "city": "Rennes",
+      "co": 1.31,
+      "no2": 54.8,
+      "o3": 76.31,
+      "pm10": 36.03,
+      "pm25": 24.64,
+      "so2": 10.34
+    },
+    {
+      "city": "Strasbourg",
+      "co": 1.32,
+      "no2": 54.87,
+      "o3": 81.05,
+      "pm10": 37.71,
+      "pm25": 23.99,
+      "so2": 10.69
+    },
+    {
+      "city": "Toulouse",
+      "co": 1.28,
+      "no2": 54.53,
+      "o3": 77.64,
+      "pm10": 38.17,
+      "pm25": 23.61,
+      "so2": 10.19
+    }
+  ],
+  "q1_ville_plus_polluee_par_polluant": {
+    "pm25": {
+      "ville": "Lyon",
+      "valeur": 34.09
+    },
+    "pm10": {
+      "ville": "Paris",
+      "valeur": 52.56
+    },
+    "no2": {
+      "ville": "Paris",
+      "valeur": 76.89
+    },
+    "o3": {
+      "ville": "Marseille",
+      "valeur": 112.59
+    },
+    "so2": {
+      "ville": "Lille",
+      "valeur": 14.51
+    },
+    "co": {
+      "ville": "Lyon",
+      "valeur": 1.84
+    }
+  },
+  "q2_profil_horaire": [
+    {
+      "h": 0,
+      "co": 1.46,
+      "no2": 55.1,
+      "o3": 70.92,
+      "pm10": 42.16,
+      "pm25": 26.89,
+      "so2": 12.12
+    },
+    {
+      "h": 1,
+      "co": 1.51,
+      "no2": 55.61,
+      "o3": 71.66,
+      "pm10": 43.39,
+      "pm25": 27.09,
+      "so2": 11.66
+    },
+    {
+      "h": 2,
+      "co": 1.48,
+      "no2": 51.8,
+      "o3": 75.52,
+      "pm10": 41.27,
+      "pm25": 27.64,
+      "so2": 11.4
+    },
+    {
+      "h": 3,
+      "co": 1.47,
+      "no2": 53.37,
+      "o3": 72.22,
+      "pm10": 41.75,
+      "pm25": 26.55,
+      "so2": 11.93
+    },
+    {
+      "h": 4,
+      "co": 1.48,
+      "no2": 53.72,
+      "o3": 72.87,
+      "pm10": 41.87,
+      "pm25": 28.37,
+      "so2": 11.31
+    },
+    {
+      "h": 5,
+      "co": 1.49,
+      "no2": 54.16,
+      "o3": 75.8,
+      "pm10": 41.18,
+      "pm25": 28.17,
+      "so2": 11.66
+    },
+    {
+      "h": 6,
+      "co": 1.47,
+      "no2": 55.86,
+      "o3": 71.48,
+      "pm10": 43.09,
+      "pm25": 27.02,
+      "so2": 11.93
+    },
+    {
+      "h": 7,
+      "co": 1.53,
+      "no2": 83.38,
+      "o3": 76.31,
+      "pm10": 41.49,
+      "pm25": 27.34,
+      "so2": 11.68
+    },
+    {
+      "h": 8,
+      "co": 1.5,
+      "no2": 82.38,
+      "o3": 77.38,
+      "pm10": 42.66,
+      "pm25": 27.26,
+      "so2": 11.61
+    },
+    {
+      "h": 9,
+      "co": 1.52,
+      "no2": 81.37,
+      "o3": 85.35,
+      "pm10": 43.2,
+      "pm25": 26.62,
+      "so2": 11.76
+    },
+    {
+      "h": 10,
+      "co": 1.46,
+      "no2": 55.0,
+      "o3": 90.85,
+      "pm10": 42.96,
+      "pm25": 27.63,
+      "so2": 11.26
+    },
+    {
+      "h": 11,
+      "co": 1.45,
+      "no2": 55.91,
+      "o3": 98.92,
+      "pm10": 42.77,
+      "pm25": 26.62,
+      "so2": 11.45
+    },
+    {
+      "h": 12,
+      "co": 1.46,
+      "no2": 55.63,
+      "o3": 106.4,
+      "pm10": 42.07,
+      "pm25": 27.05,
+      "so2": 11.1
+    },
+    {
+      "h": 13,
+      "co": 1.52,
+      "no2": 55.41,
+      "o3": 106.74,
+      "pm10": 43.92,
+      "pm25": 26.62,
+      "so2": 11.63
+    },
+    {
+      "h": 14,
+      "co": 1.44,
+      "no2": 53.16,
+      "o3": 116.46,
+      "pm10": 43.19,
+      "pm25": 28.27,
+      "so2": 12.08
+    },
+    {
+      "h": 15,
+      "co": 1.48,
+      "no2": 55.93,
+      "o3": 127.25,
+      "pm10": 41.33,
+      "pm25": 27.56,
+      "so2": 11.95
+    },
+    {
+      "h": 16,
+      "co": 1.52,
+      "no2": 52.66,
+      "o3": 113.66,
+      "pm10": 44.1,
+      "pm25": 27.49,
+      "so2": 11.8
+    },
+    {
+      "h": 17,
+      "co": 1.47,
+      "no2": 78.74,
+      "o3": 111.74,
+      "pm10": 42.47,
+      "pm25": 27.4,
+      "so2": 11.38
+    },
+    {
+      "h": 18,
+      "co": 1.47,
+      "no2": 80.87,
+      "o3": 103.67,
+      "pm10": 41.66,
+      "pm25": 26.89,
+      "so2": 11.55
+    },
+    {
+      "h": 19,
+      "co": 1.49,
+      "no2": 82.83,
+      "o3": 90.56,
+      "pm10": 43.2,
+      "pm25": 26.77,
+      "so2": 11.29
+    },
+    {
+      "h": 20,
+      "co": 1.49,
+      "no2": 54.01,
+      "o3": 90.67,
+      "pm10": 41.41,
+      "pm25": 26.82,
+      "so2": 11.44
+    },
+    {
+      "h": 21,
+      "co": 1.46,
+      "no2": 55.4,
+      "o3": 85.79,
+      "pm10": 44.2,
+      "pm25": 27.45,
+      "so2": 12.08
+    },
+    {
+      "h": 22,
+      "co": 1.47,
+      "no2": 52.91,
+      "o3": 77.23,
+      "pm10": 42.51,
+      "pm25": 27.26,
+      "so2": 11.98
+    },
+    {
+      "h": 23,
+      "co": 1.42,
+      "no2": 54.64,
+      "o3": 73.41,
+      "pm10": 41.98,
+      "pm25": 26.68,
+      "so2": 11.83
+    }
+  ],
+  "q3_depassements_seuils": {
+    "seuils_ug_m3": {
+      "pm25": 15,
+      "pm10": 45,
+      "no2": 25,
+      "o3": 100,
+      "so2": 40,
+      "co": 4
+    },
+    "total_depassements": 2325,
+    "top": [
+      {
+        "city": "Bordeaux",
+        "parameter": "no2",
+        "nb_depassements": 74
+      },
+      {
+        "city": "Bordeaux",
+        "parameter": "pm25",
+        "nb_depassements": 74
+      },
+      {
+        "city": "Grenoble",
+        "parameter": "pm25",
+        "nb_depassements": 74
+      },
+      {
+        "city": "Grenoble",
+        "parameter": "no2",
+        "nb_depassements": 74
+      },
+      {
+        "city": "Lyon",
+        "parameter": "no2",
+        "nb_depassements": 74
+      },
+      {
+        "city": "Lyon",
+        "parameter": "pm25",
+        "nb_depassements": 74
+      },
+      {
+        "city": "Lille",
+        "parameter": "pm25",
+        "nb_depassements": 74
+      },
+      {
+        "city": "Lille",
+        "parameter": "no2",
+        "nb_depassements": 74
+      },
+      {
+        "city": "Nantes",
+        "parameter": "no2",
+        "nb_depassements": 74
+      },
+      {
+        "city": "Nantes",
+        "parameter": "pm25",
+        "nb_depassements": 74
+      },
+      {
+        "city": "Nice",
+        "parameter": "pm25",
+        "nb_depassements": 74
+      },
+      {
+        "city": "Nice",
+        "parameter": "no2",
+        "nb_depassements": 74
+      },
+      {
+        "city": "Montpellier",
+        "parameter": "no2",
+        "nb_depassements": 74
+      },
+      {
+        "city": "Montpellier",
+        "parameter": "pm25",
+        "nb_depassements": 74
+      },
+      {
+        "city": "Marseille",
+        "parameter": "pm25",
+        "nb_depassements": 74
+      }
+    ]
+  },
+  "q4_indice_qualite_air": {
+    "definition": "Moyenne des ratios valeur/seuil (1.0 = niveau du seuil). Plus haut = plus pollue.",
+    "classement": [
+      {
+        "city": "Lyon",
+        "indice": 1.399
+      },
+      {
+        "city": "Paris",
+        "indice": 1.395
+      },
+      {
+        "city": "Marseille",
+        "indice": 1.393
+      },
+      {
+        "city": "Lille",
+        "indice": 1.387
+      },
+      {
+        "city": "Strasbourg",
+        "indice": 1.007
+      },
+      {
+        "city": "Grenoble",
+        "indice": 1.005
+      },
+      {
+        "city": "Bordeaux",
+        "indice": 1.003
+      },
+      {
+        "city": "Montpellier",
+        "indice": 1.001
+      },
+      {
+        "city": "Rennes",
+        "indice": 0.997
+      },
+      {
+        "city": "Nantes",
+        "indice": 0.996
+      },
+      {
+        "city": "Toulouse",
+        "indice": 0.993
+      },
+      {
+        "city": "Nice",
+        "indice": 0.991
+      }
+    ]
+  }
+}

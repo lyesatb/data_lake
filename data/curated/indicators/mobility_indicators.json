@@ -1,0 +1,789 @@
+{
+  "n_observations": 5639,
+  "n_stations": 5639,
+  "n_reseaux": 65,
+  "n_snapshots": 1,
+  "q1_stations_plus_utilisees": [
+    {
+      "city": "Ligne TER Royan - Angoulême",
+      "station_name": "Soyaux - Place du Lac",
+      "occupancy_rate": 1.0,
+      "capacity": 6.0
+    },
+    {
+      "city": "Ligne TER Royan - Angoulême",
+      "station_name": "Torsac - Place Blanche",
+      "occupancy_rate": 1.0,
+      "capacity": 6.0
+    },
+    {
+      "city": "Ligne TER Royan - Angoulême",
+      "station_name": "Royan Port de Royan",
+      "occupancy_rate": 1.0,
+      "capacity": 8.0
+    },
+    {
+      "city": "Ligne TER Royan - Angoulême",
+      "station_name": "Saint-Palais-sur-Mer",
+      "occupancy_rate": 1.0,
+      "capacity": 2.0
+    },
+    {
+      "city": "Ligne TER Royan - Angoulême",
+      "station_name": "Cognac Le Castel",
+      "occupancy_rate": 1.0,
+      "capacity": 2.0
+    },
+    {
+      "city": "Metz",
+      "station_name": "Saint Livier",
+      "occupancy_rate": 1.0,
+      "capacity": 1.0
+    },
+    {
+      "city": "Metz",
+      "station_name": "Colson",
+      "occupancy_rate": 1.0,
+      "capacity": 10.0
+    },
+    {
+      "city": "Ligne TER Royan - Angoulême",
+      "station_name": "Ruelle - Fonderie",
+      "occupancy_rate": 1.0,
+      "capacity": 2.0
+    },
+    {
+      "city": "Ligne TER Royan - Angoulême",
+      "station_name": "Saintes Lycée Bellevue",
+      "occupancy_rate": 1.0,
+      "capacity": 4.0
+    },
+    {
+      "city": "Ligne TER Royan - Angoulême",
+      "station_name": "Cognac X'eau",
+      "occupancy_rate": 1.0,
+      "capacity": 2.0
+    },
+    {
+      "city": "Ligne TER Royan - Angoulême",
+      "station_name": "Cognac Pôle Gambetta",
+      "occupancy_rate": 1.0,
+      "capacity": 5.0
+    },
+    {
+      "city": "Ligne TER Royan - Angoulême",
+      "station_name": "Gare SNCF Cognac",
+      "occupancy_rate": 1.0,
+      "capacity": 2.0
+    },
+    {
+      "city": "Ligne TER Royan - Angoulême",
+      "station_name": "Angoulême Mulac",
+      "occupancy_rate": 1.0,
+      "capacity": 7.0
+    },
+    {
+      "city": "Ligne TER Royan - Angoulême",
+      "station_name": "Saint-Michel - Girac",
+      "occupancy_rate": 1.0,
+      "capacity": 3.0
+    },
+    {
+      "city": "Ligne TER Royan - Angoulême",
+      "station_name": "Cognac Tour Saint-Jacques",
+      "occupancy_rate": 1.0,
+      "capacity": 9.0
+    }
+  ],
+  "q2_offre_insuffisante": [
+    {
+      "city": "Toulouse",
+      "station_name": "CITÉ DE L'HERS - ROTONDE",
+      "pct_empty": 1.0,
+      "bikes_available": 0.0
+    },
+    {
+      "city": "Toulouse",
+      "station_name": "COLONNE - SALONIQUE",
+      "pct_empty": 1.0,
+      "bikes_available": 0.0
+    },
+    {
+      "city": "Toulouse",
+      "station_name": "TERRASSE - LEDORMEUR",
+      "pct_empty": 1.0,
+      "bikes_available": 0.0
+    },
+    {
+      "city": "Toulouse",
+      "station_name": "PARC DE LA VIOLETTE",
+      "pct_empty": 1.0,
+      "bikes_available": 0.0
+    },
+    {
+      "city": "Rennes",
+      "station_name": "Pont de Châteaudun",
+      "pct_empty": 1.0,
+      "bikes_available": 0.0
+    },
+    {
+      "city": "Lyon",
+      "station_name": "PLACE MARENGO",
+      "pct_empty": 1.0,
+      "bikes_available": 0.0
+    },
+    {
+      "city": "Lyon",
+      "station_name": "PLACE DE TRION",
+      "pct_empty": 1.0,
+      "bikes_available": 0.0
+    },
+    {
+      "city": "Valence",
+      "station_name": "Gare TGV",
+      "pct_empty": 1.0,
+      "bikes_available": 0.0
+    },
+    {
+      "city": "Lyon",
+      "station_name": "GAMBETTA / GARIBALDI",
+      "pct_empty": 1.0,
+      "bikes_available": 0.0
+    },
+    {
+      "city": "Lyon",
+      "station_name": "CLOS SAVARON",
+      "pct_empty": 1.0,
+      "bikes_available": 0.0
+    },
+    {
+      "city": "Lyon",
+      "station_name": "SALENGRO / VAILLANT",
+      "pct_empty": 1.0,
+      "bikes_available": 0.0
+    },
+    {
+      "city": "Lyon",
+      "station_name": "CHARPENNES",
+      "pct_empty": 1.0,
+      "bikes_available": 0.0
+    },
+    {
+      "city": "Toulouse",
+      "station_name": "MINIMES - BAQUÉ",
+      "pct_empty": 1.0,
+      "bikes_available": 0.0
+    },
+    {
+      "city": "Paris",
+      "station_name": "Belliard - Damrémont",
+      "pct_empty": 1.0,
+      "bikes_available": 0.0
+    },
+    {
+      "city": "Lille",
+      "station_name": "College Lavoisier",
+      "pct_empty": 1.0,
+      "bikes_available": 0.0
+    }
+  ],
+  "q3_profil_horaire": [
+    {
+      "hour": 8,
+      "bikes_available": 7.458,
+      "occupancy_rate": 0.386
+    }
+  ],
+  "q4_desequilibres_villes": [
+    {
+      "city": "Paris",
+      "stations": 1516,
+      "occupancy_moy": 0.397,
+      "pct_empty_moy": 0.056,
+      "pct_full_moy": 0.037
+    },
+    {
+      "city": "Lyon",
+      "stations": 461,
+      "occupancy_moy": 0.375,
+      "pct_empty_moy": 0.171,
+      "pct_full_moy": 0.069
+    },
+    {
+      "city": "Toulouse",
+      "stations": 443,
+      "occupancy_moy": 0.356,
+      "pct_empty_moy": 0.163,
+      "pct_full_moy": 0.072
+    },
+    {
+      "city": "Lille",
+      "stations": 300,
+      "occupancy_moy": 0.376,
+      "pct_empty_moy": 0.187,
+      "pct_full_moy": 0.063
+    },
+    {
+      "city": "Marseille",
+      "stations": 228,
+      "occupancy_moy": 0.343,
+      "pct_empty_moy": 0.118,
+      "pct_full_moy": 0.105
+    },
+    {
+      "city": "Bordeaux",
+      "stations": 223,
+      "occupancy_moy": 0.344,
+      "pct_empty_moy": 0.126,
+      "pct_full_moy": 0.013
+    },
+    {
+      "city": "La Rochelle",
+      "stations": 137,
+      "occupancy_moy": 0.465,
+      "pct_empty_moy": 0.022,
+      "pct_full_moy": 0.036
+    },
+    {
+      "city": "Nantes",
+      "stations": 123,
+      "occupancy_moy": 0.412,
+      "pct_empty_moy": 0.073,
+      "pct_full_moy": 0.016
+    },
+    {
+      "city": "Rouen",
+      "stations": 114,
+      "occupancy_moy": 0.463,
+      "pct_empty_moy": 0.132,
+      "pct_full_moy": 0.114
+    },
+    {
+      "city": "Épinal",
+      "stations": 107,
+      "occupancy_moy": 0.317,
+      "pct_empty_moy": 0.103,
+      "pct_full_moy": 0.009
+    },
+    {
+      "city": "Saint-Étienne",
+      "stations": 96,
+      "occupancy_moy": 0.342,
+      "pct_empty_moy": 0.188,
+      "pct_full_moy": 0.104
+    },
+    {
+      "city": "Ligne TER Royan - Angoulême",
+      "stations": 90,
+      "occupancy_moy": 1.0,
+      "pct_empty_moy": 0.044,
+      "pct_full_moy": 1.0
+    },
+    {
+      "city": "Calais",
+      "stations": 89,
+      "occupancy_moy": 0.317,
+      "pct_empty_moy": 0.202,
+      "pct_full_moy": 0.056
+    },
+    {
+      "city": "Clermont-Ferrand",
+      "stations": 82,
+      "occupancy_moy": 0.344,
+      "pct_empty_moy": 0.061,
+      "pct_full_moy": 0.0
+    },
+    {
+      "city": "Annecy",
+      "stations": 80,
+      "occupancy_moy": 0.396,
+      "pct_empty_moy": 0.162,
+      "pct_full_moy": 0.138
+    },
+    {
+      "city": "Caen",
+      "stations": 76,
+      "occupancy_moy": 0.254,
+      "pct_empty_moy": 0.329,
+      "pct_full_moy": 0.013
+    },
+    {
+      "city": "Valence",
+      "stations": 68,
+      "occupancy_moy": 0.391,
+      "pct_empty_moy": 0.029,
+      "pct_full_moy": 0.015
+    },
+    {
+      "city": "Reims",
+      "stations": 66,
+      "occupancy_moy": 0.299,
+      "pct_empty_moy": 0.227,
+      "pct_full_moy": 0.0
+    },
+    {
+      "city": "Mulhouse",
+      "stations": 62,
+      "occupancy_moy": 0.447,
+      "pct_empty_moy": 0.0,
+      "pct_full_moy": 0.016
+    },
+    {
+      "city": "Niort",
+      "stations": 58,
+      "occupancy_moy": 0.307,
+      "pct_empty_moy": 0.069,
+      "pct_full_moy": 0.0
+    },
+    {
+      "city": "Metz",
+      "stations": 57,
+      "occupancy_moy": 0.353,
+      "pct_empty_moy": 0.193,
+      "pct_full_moy": 0.053
+    },
+    {
+      "city": "Rennes",
+      "stations": 57,
+      "occupancy_moy": 0.348,
+      "pct_empty_moy": 0.07,
+      "pct_full_moy": 0.0
+    },
+    {
+      "city": "Auxerre",
+      "stations": 55,
+      "occupancy_moy": 0.303,
+      "pct_empty_moy": 0.055,
+      "pct_full_moy": 0.018
+    },
+    {
+      "city": "Nîmes",
+      "stations": 52,
+      "occupancy_moy": 0.286,
+      "pct_empty_moy": 0.212,
+      "pct_full_moy": 0.0
+    },
+    {
+      "city": "Grand Est",
+      "stations": 52,
+      "occupancy_moy": 0.838,
+      "pct_empty_moy": 0.346,
+      "pct_full_moy": 0.615
+    },
+    {
+      "city": "Montpellier",
+      "stations": 52,
+      "occupancy_moy": 0.447,
+      "pct_empty_moy": 0.038,
+      "pct_full_moy": 0.019
+    },
+    {
+      "city": "Cergy",
+      "stations": 49,
+      "occupancy_moy": 0.247,
+      "pct_empty_moy": 0.082,
+      "pct_full_moy": 0.0
+    },
+    {
+      "city": "Brest",
+      "stations": 47,
+      "occupancy_moy": 0.419,
+      "pct_empty_moy": 0.234,
+      "pct_full_moy": 0.149
+    },
+    {
+      "city": "Bourg-en-Bresse",
+      "stations": 46,
+      "occupancy_moy": 0.308,
+      "pct_empty_moy": 0.087,
+      "pct_full_moy": 0.0
+    },
+    {
+      "city": "Amiens",
+      "stations": 46,
+      "occupancy_moy": 0.384,
+      "pct_empty_moy": 0.065,
+      "pct_full_moy": 0.043
+    },
+    {
+      "city": "Nancy",
+      "stations": 41,
+      "occupancy_moy": 0.367,
+      "pct_empty_moy": 0.122,
+      "pct_full_moy": 0.073
+    },
+    {
+      "city": "Communauté d'agglomération Seine-Eure",
+      "stations": 40,
+      "occupancy_moy": 0.328,
+      "pct_empty_moy": 0.05,
+      "pct_full_moy": 0.0
+    },
+    {
+      "city": "Pau",
+      "stations": 40,
+      "occupancy_moy": 0.427,
+      "pct_empty_moy": 0.075,
+      "pct_full_moy": 0.05
+    },
+    {
+      "city": "Dijon",
+      "stations": 40,
+      "occupancy_moy": 0.518,
+      "pct_empty_moy": 0.0,
+      "pct_full_moy": 0.0
+    },
+    {
+      "city": "Strasbourg",
+      "stations": 39,
+      "occupancy_moy": 0.561,
+      "pct_empty_moy": 0.103,
+      "pct_full_moy": 0.154
+    },
+    {
+      "city": "Ardenne Métropole",
+      "stations": 34,
+      "occupancy_moy": 0.352,
+      "pct_empty_moy": 0.029,
+      "pct_full_moy": 0.0
+    },
+    {
+      "city": "Avignon",
+      "stations": 34,
+      "occupancy_moy": 0.249,
+      "pct_empty_moy": 0.235,
+      "pct_full_moy": 0.029
+    },
+    {
+      "city": "Besançon",
+      "stations": 33,
+      "occupancy_moy": 0.396,
+      "pct_empty_moy": 0.091,
+      "pct_full_moy": 0.061
+    },
+    {
+      "city": "Belfort",
+      "stations": 32,
+      "occupancy_moy": 0.44,
+      "pct_empty_moy": 0.031,
+      "pct_full_moy": 0.062
+    },
+    {
+      "city": "Soissons",
+      "stations": 31,
+      "occupancy_moy": 0.253,
+      "pct_empty_moy": 0.129,
+      "pct_full_moy": 0.0
+    },
+    {
+      "city": "Saint-Pierre",
+      "stations": 31,
+      "occupancy_moy": 0.167,
+      "pct_empty_moy": 0.194,
+      "pct_full_moy": 0.0
+    },
+    {
+      "city": "Troyes",
+      "stations": 29,
+      "occupancy_moy": 0.235,
+      "pct_empty_moy": 0.138,
+      "pct_full_moy": 0.0
+    },
+    {
+      "city": "Brive-la-Gaillarde",
+      "stations": 26,
+      "occupancy_moy": 0.285,
+      "pct_empty_moy": 0.231,
+      "pct_full_moy": 0.0
+    },
+    {
+      "city": "Saint-Malo",
+      "stations": 25,
+      "occupancy_moy": 1.0,
+      "pct_empty_moy": 0.16,
+      "pct_full_moy": 1.0
+    },
+    {
+      "city": "Tarbes, Lourdes",
+      "stations": 19,
+      "occupancy_moy": 0.304,
+      "pct_empty_moy": 0.0,
+      "pct_full_moy": 0.0
+    },
+    {
+      "city": "Laon",
+      "stations": 19,
+      "occupancy_moy": 0.184,
+      "pct_empty_moy": 0.474,
+      "pct_full_moy": 0.053
+    },
+    {
+      "city": "Sens",
+      "stations": 18,
+      "occupancy_moy": 0.307,
+      "pct_empty_moy": 0.167,
+      "pct_full_moy": 0.0
+    },
+    {
+      "city": "Les Sables d'Olonne",
+      "stations": 17,
+      "occupancy_moy": 0.413,
+      "pct_empty_moy": 0.059,
+      "pct_full_moy": 0.0
+    },
+    {
+      "city": "Pointe-à-Pitre",
+      "stations": 17,
+      "occupancy_moy": 0.223,
+      "pct_empty_moy": 0.059,
+      "pct_full_moy": 0.0
+    },
+    {
+      "city": "Agen",
+      "stations": 16,
+      "occupancy_moy": 0.399,
+      "pct_empty_moy": 0.062,
+      "pct_full_moy": 0.0
+    },
+    {
+      "city": "La Chantrerie, Nantes",
+      "stations": 16,
+      "occupancy_moy": 0.251,
+      "pct_empty_moy": 0.062,
+      "pct_full_moy": 0.0
+    },
+    {
+      "city": "Cholet",
+      "stations": 16,
+      "occupancy_moy": 0.349,
+      "pct_empty_moy": 0.0,
+      "pct_full_moy": 0.0
+    },
+    {
+      "city": "La Baule-Escoublac",
+      "stations": 14,
+      "occupancy_moy": 0.293,
+      "pct_empty_moy": 0.071,
+      "pct_full_moy": 0.0
+    },
+    {
+      "city": "Landernau",
+      "stations": 14,
+      "occupancy_moy": 0.33,
+      "pct_empty_moy": 0.143,
+      "pct_full_moy": 0.0
+    },
+    {
+      "city": "Auray-Quiberon",
+      "stations": 12,
+      "occupancy_moy": 0.529,
+      "pct_empty_moy": 0.0,
+      "pct_full_moy": 0.0
+    },
+    {
+      "city": "Saint-Brieuc",
+      "stations": 12,
+      "occupancy_moy": 0.561,
+      "pct_empty_moy": 0.0,
+      "pct_full_moy": 0.0
+    },
+    {
+      "city": "Carcassonne",
+      "stations": 11,
+      "occupancy_moy": 0.514,
+      "pct_empty_moy": 0.0,
+      "pct_full_moy": 0.0
+    },
+    {
+      "city": "Val d'Ille-Aubigné",
+      "stations": 7,
+      "occupancy_moy": 0.125,
+      "pct_empty_moy": 0.571,
+      "pct_full_moy": 0.143
+    },
+    {
+      "city": "Argelès-sur-Mer",
+      "stations": 6,
+      "occupancy_moy": 0.0,
+      "pct_empty_moy": 1.0,
+      "pct_full_moy": 0.167
+    },
+    {
+      "city": "Laval",
+      "stations": 6,
+      "occupancy_moy": 0.353,
+      "pct_empty_moy": 0.0,
+      "pct_full_moy": 0.0
+    },
+    {
+      "city": "Saint-Nazaire",
+      "stations": 5,
+      "occupancy_moy": 0.075,
+      "pct_empty_moy": 0.8,
+      "pct_full_moy": 0.0
+    },
+    {
+      "city": "Grand Périgueux",
+      "stations": 3,
+      "occupancy_moy": 0.232,
+      "pct_empty_moy": 0.0,
+      "pct_full_moy": 0.0
+    },
+    {
+      "city": "Marseillan",
+      "stations": 3,
+      "occupancy_moy": 0.0,
+      "pct_empty_moy": 1.0,
+      "pct_full_moy": 0.0
+    },
+    {
+      "city": "Orléans",
+      "stations": 1,
+      "occupancy_moy": 0.0,
+      "pct_empty_moy": 1.0,
+      "pct_full_moy": 0.0
+    }
+  ],
+  "q5_stations_critiques": [
+    {
+      "city": "Saint-Pierre",
+      "station_name": "Mairie du Ouaki",
+      "type_critique": "penurie (vide)",
+      "criticite": 1.0,
+      "capacity": 3.0
+    },
+    {
+      "city": "Saint-Pierre",
+      "station_name": "Cité Palissade",
+      "type_critique": "penurie (vide)",
+      "criticite": 1.0,
+      "capacity": 3.0
+    },
+    {
+      "city": "Saint-Pierre",
+      "station_name": "Mairie de la Ravine",
+      "type_critique": "penurie (vide)",
+      "criticite": 1.0,
+      "capacity": 3.0
+    },
+    {
+      "city": "Saint-Pierre",
+      "station_name": "Roches Maigres",
+      "type_critique": "penurie (vide)",
+      "criticite": 1.0,
+      "capacity": 9.0
+    },
+    {
+      "city": "Saint-Pierre",
+      "station_name": "Kerveguen",
+      "type_critique": "penurie (vide)",
+      "criticite": 1.0,
+      "capacity": 6.0
+    },
+    {
+      "city": "Saint-Pierre",
+      "station_name": "Lycée Jean Joly",
+      "type_critique": "penurie (vide)",
+      "criticite": 1.0,
+      "capacity": 8.0
+    },
+    {
+      "city": "Auxerre",
+      "station_name": "Auxerre IUT",
+      "type_critique": "penurie (vide)",
+      "criticite": 1.0,
+      "capacity": 35.0
+    },
+    {
+      "city": "Auxerre",
+      "station_name": "Vincelles",
+      "type_critique": "penurie (vide)",
+      "criticite": 1.0,
+      "capacity": 10.0
+    },
+    {
+      "city": "Auxerre",
+      "station_name": "Saint-Georges-sur-Baulche  Eglise",
+      "type_critique": "saturation (pleine)",
+      "criticite": 1.0,
+      "capacity": 3.0
+    },
+    {
+      "city": "Auxerre",
+      "station_name": "Auxerre  Les Quais",
+      "type_critique": "penurie (vide)",
+      "criticite": 1.0,
+      "capacity": 15.0
+    },
+    {
+      "city": "Nantes",
+      "station_name": "BOUFFAY",
+      "type_critique": "penurie (vide)",
+      "criticite": 1.0,
+      "capacity": 15.0
+    },
+    {
+      "city": "Nantes",
+      "station_name": "BRUNELIÈRE",
+      "type_critique": "penurie (vide)",
+      "criticite": 1.0,
+      "capacity": 18.0
+    },
+    {
+      "city": "Nantes",
+      "station_name": "LIVET",
+      "type_critique": "penurie (vide)",
+      "criticite": 1.0,
+      "capacity": 15.0
+    },
+    {
+      "city": "Nantes",
+      "station_name": "",
+      "type_critique": "penurie (vide)",
+      "criticite": 1.0,
+      "capacity": 5.0
+    },
+    {
+      "city": "Nantes",
+      "station_name": "RENÉ BOUHIER",
+      "type_critique": "penurie (vide)",
+      "criticite": 1.0,
+      "capacity": 15.0
+    },
+    {
+      "city": "Nantes",
+      "station_name": "PROCÉ",
+      "type_critique": "saturation (pleine)",
+      "criticite": 1.0,
+      "capacity": 15.0
+    },
+    {
+      "city": "Nantes",
+      "station_name": "STRASBOURG",
+      "type_critique": "penurie (vide)",
+      "criticite": 1.0,
+      "capacity": 15.0
+    },
+    {
+      "city": "Nantes",
+      "station_name": "GUIST'HAU SUD",
+      "type_critique": "penurie (vide)",
+      "criticite": 1.0,
+      "capacity": 0.0
+    },
+    {
+      "city": "Nantes",
+      "station_name": "MAIRIE DE CHANTENAY",
+      "type_critique": "penurie (vide)",
+      "criticite": 1.0,
+      "capacity": 14.0
+    },
+    {
+      "city": "Nantes",
+      "station_name": "RACINE",
+      "type_critique": "penurie (vide)",
+      "criticite": 1.0,
+      "capacity": 12.0
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "n_observations": 24216,
+  "n_stations": 8,
+  "periode": [
+    "2025-01-01 00:00:00+00:00",
+    "2025-08-24 21:30:00+00:00"
+  ],
+  "q1_periodes_anormales": {
+    "definition": "Jours dont la temperature moyenne s'ecarte de >= 2.5 ecarts-types de la normale mensuelle",
+    "nombre_jours_anormaux": 1,
+    "top_anomalies": [
+      {
+        "day": "2025-07-01",
+        "temperature_c": 25.90625,
+        "temp_zscore": 3.459496240798957
+      }
+    ]
+  },
+  "q2_correlation_visibilite": {
+    "temperature_c": 0.358,
+    "humidity_pct": -0.615,
+    "wind_speed_ms": 0.227,
+    "precip_mm": -0.167,
+    "pressure_hpa": -0.303
+  },
+  "q3_temperature_saisonniere_france": {
+    "Ete": 19.06,
+    "Hiver": 4.19,
+    "Printemps": 11.6
+  },
+  "q3_temperature_saisonniere_villes": [
+    {
+      "city": "Lille",
+      "Ete": 19.85,
+      "Hiver": 3.73,
+      "Printemps": 12.01
+    }
+  ],
+  "q4_jours_extremes": {
+    "jour_plus_chaud": {
+      "day": "2025-07-01",
+      "tmax": 37.0
+    },
+    "jour_plus_froid": {
+      "day": "2025-01-10",
+      "tmin": -5.9
+    },
+    "jour_plus_pluvieux": {
+      "day": "2025-01-05",
+      "precip_mm": 180.1
+    },
+    "jour_plus_vente": {
+      "day": "2025-01-08",
+      "wind_speed_ms": 19.6
+    }
+  }
+}

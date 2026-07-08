@@ -47,6 +47,9 @@ def cmd_stream(args) -> None:
 def cmd_iot(args) -> None:
     from urbanhub.ingestion import iot_openaq
     config.ensure_dirs()
+    if args.backfill_hours:
+        iot_openaq.backfill(hours=args.backfill_hours, seed=args.seed)
+        return
     simulate = True if args.simulate else (False if args.real else None)
     iot_openaq.stream(
         iterations=args.iterations,
@@ -91,7 +94,9 @@ def cmd_pipeline(args) -> None:
     # 2. Flux streaming velos
     streaming_citybikes.stream(iterations=args.stream_iters, interval_sec=args.interval)
 
-    # 3. Flux IoT pollution
+    # 3. Flux IoT pollution : historique simule (profils diurnes) + collecte live
+    if args.iot_backfill:
+        iot_openaq.backfill(hours=args.iot_backfill, seed=args.seed)
     iot_openaq.stream(iterations=args.iot_iters, interval_sec=args.interval,
                       simulate=None, seed=args.seed)
 
@@ -127,6 +132,8 @@ def build_parser() -> argparse.ArgumentParser:
     i.add_argument("--interval", type=int, default=config.OPENAQ.poll_interval_sec)
     i.add_argument("--simulate", action="store_true", help="Force le mode simule")
     i.add_argument("--real", action="store_true", help="Force l'appel reel a OpenAQ")
+    i.add_argument("--backfill-hours", type=int, default=None,
+                   help="Genere un historique IoT simule sur N heures (profils diurnes)")
     i.add_argument("--seed", type=int, default=42)
     i.set_defaults(func=cmd_iot)
 
@@ -140,6 +147,8 @@ def build_parser() -> argparse.ArgumentParser:
     pl.add_argument("--demo", action="store_true", help="Mode demo (perimetre reduit)")
     pl.add_argument("--stream-iters", type=int, default=2)
     pl.add_argument("--iot-iters", type=int, default=6)
+    pl.add_argument("--iot-backfill", type=int, default=72,
+                    help="Heures d'historique IoT simule a generer (0 pour desactiver)")
     pl.add_argument("--interval", type=int, default=5)
     pl.add_argument("--max-files", type=int, default=None)
     pl.add_argument("--seed", type=int, default=42)

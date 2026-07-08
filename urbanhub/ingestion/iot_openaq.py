@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import random
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
@@ -152,6 +152,32 @@ def collect_once(dest_dir: Path | None = None, simulate: bool | None = None,
     storage.append_jsonl(rows, out)
     log.info("Ingestion IoT [%s] : %d mesures -> %s", mode, len(rows), out)
     return len(rows)
+
+
+def backfill(hours: int = 72, freq_minutes: int = 60, seed: int | None = 42,
+             dest_dir: Path | None = None) -> int:
+    """Genere un historique IoT simule sur `hours` heures.
+
+    Utile pour demontrer les analyses temporelles (profils diurnes, croisement
+    avec la meteo) sans attendre que le flux tourne plusieurs jours. Chaque pas
+    de temps produit un snapshot horodate dans le passe, avec le meme modele de
+    variation diurne que la collecte temps reel.
+    """
+    dest_dir = dest_dir or config.RAW_OPENAQ_DIR
+    rng = random.Random(seed)
+    now = datetime.now(timezone.utc).replace(minute=0, second=0, microsecond=0)
+    steps = int(hours * 60 / freq_minutes)
+    total = 0
+    for i in range(steps, 0, -1):
+        ts = now - timedelta(minutes=i * freq_minutes)
+        rows = _collect_simulated(ts, rng)
+        part = dest_dir / storage.date_partition(ts)
+        out = part / f"openaq_{ts:%Y%m%dT%H%M%S}.jsonl"
+        storage.append_jsonl(rows, out)
+        total += len(rows)
+    log.info("Backfill IoT simule : %d mesures sur %dh (%d snapshots).",
+             total, hours, steps)
+    return total
 
 
 def stream(
