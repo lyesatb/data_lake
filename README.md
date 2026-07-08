@@ -84,7 +84,27 @@ python -m urbanhub.cli analyze
 
 # Chaîne complète de démonstration (périmètre réduit, exécution rapide)
 python -m urbanhub.cli pipeline --demo
+
+# Tableau de bord interactif (après avoir généré les indicateurs)
+python -m urbanhub.cli dashboard          # ouvre http://localhost:8501
+# équivalent : streamlit run urbanhub/dashboard/app.py
 ```
+
+### Tableau de bord (Streamlit)
+
+Un **tableau de bord interactif** visualise les résultats du data lake, organisé
+en 4 onglets — **Météo (Batch)**, **Mobilité (Streaming)**, **Pollution (IoT)** et
+**Analyse croisée** — avec KPIs, **carte des stations vélos**, classements,
+profils horaires, matrice de corrélation météo/pollution et graphiques.
+
+```bash
+pip install -r requirements.txt          # inclut streamlit
+python -m urbanhub.cli pipeline --demo --iot-backfill 72   # générer les données
+python -m urbanhub.cli dashboard          # lancer le tableau de bord
+```
+
+Le tableau de bord lit `data/curated/` et `data/processed/` ; il affiche un
+message d'aide si le pipeline n'a pas encore été exécuté.
 
 ### Clé API OpenAQ
 
@@ -236,6 +256,7 @@ physiquement pertinent (cycles jour/nuit, pointes de trafic, photochimie).
 | Traitement data engineering | `urbanhub/processing/` |
 | Analyse data / IA | `urbanhub/analysis/` |
 | Indicateurs urbains | `data/curated/indicators/` + `data/curated/reports/` |
+| Tableau de bord | `urbanhub/dashboard/app.py` (Streamlit) |
 | Orchestration | `urbanhub/cli.py` |
 
 ## Structure du projet
@@ -247,7 +268,8 @@ urbanhub/
 ├── utils/                    # logging + couche d'accès data lake (parquet/jsonl/json)
 ├── ingestion/                # batch_weather / streaming_citybikes / iot_openaq
 ├── processing/               # weather / citybikes / openaq (nettoyage → Parquet)
-└── analysis/                 # weather / mobility / pollution / cross (indicateurs)
+├── analysis/                 # weather / mobility / pollution / cross (indicateurs)
+└── dashboard/app.py          # tableau de bord interactif Streamlit
 ```
 
 ## Reproduire la démo

@@ -5,3 +5,5 @@ numpy>=1.26
 pyarrow>=14.0
 requests>=2.31
 matplotlib>=3.8
+# Tableau de bord interactif
+streamlit>=1.30

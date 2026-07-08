@@ -81,6 +81,24 @@ def cmd_analyze(_args) -> None:
     log.info("Indicateurs ecrits sous : %s", config.INDICATORS_DIR)
 
 
+def cmd_dashboard(args) -> None:
+    """Lance le tableau de bord interactif Streamlit."""
+    import subprocess
+    import sys
+    from pathlib import Path
+
+    app = Path(__file__).resolve().parent / "dashboard" / "app.py"
+    cmd = [sys.executable, "-m", "streamlit", "run", str(app),
+           "--server.port", str(args.port)]
+    log.info("Lancement du tableau de bord : http://localhost:%s", args.port)
+    try:
+        subprocess.run(cmd, check=True)
+    except FileNotFoundError:
+        log.error("Streamlit n'est pas installe. Faites : pip install streamlit")
+    except KeyboardInterrupt:
+        log.info("Tableau de bord arrete.")
+
+
 def cmd_pipeline(args) -> None:
     """Chaine complete : ingestion -> stockage -> traitement -> analyse."""
     config.ensure_dirs()
@@ -142,6 +160,10 @@ def build_parser() -> argparse.ArgumentParser:
     pr.set_defaults(func=cmd_process)
 
     sub.add_parser("analyze", help="Analyse + indicateurs urbains").set_defaults(func=cmd_analyze)
+
+    db = sub.add_parser("dashboard", help="Lance le tableau de bord Streamlit")
+    db.add_argument("--port", type=int, default=8501)
+    db.set_defaults(func=cmd_dashboard)
 
     pl = sub.add_parser("pipeline", help="Chaine complete de demonstration")
     pl.add_argument("--demo", action="store_true", help="Mode demo (perimetre reduit)")
