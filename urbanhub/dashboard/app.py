@@ -1,7 +1,9 @@
 """Tableau de bord UrbanHub - Jumeau numerique urbain (Streamlit).
 
-Visualise les indicateurs des trois flux (Batch meteo / Streaming velos /
-IoT pollution) et l'analyse croisee, a partir des donnees du data lake.
+Visualise les trois flux (Batch meteo / Streaming velos / IoT pollution) et
+l'analyse croisee a partir des donnees du data lake. Le tableau de bord est
+INTERACTIF : une barre laterale permet de filtrer par ville et par polluant, et
+les graphiques sont recalcules dynamiquement a partir des donnees nettoyees.
 
 Lancement :
     streamlit run urbanhub/dashboard/app.py
@@ -19,6 +21,45 @@ import streamlit as st
 from urbanhub import config
 
 st.set_page_config(page_title="UrbanHub - Smart City", page_icon="🏙️", layout="wide")
+
+# Seuils indicatifs (OMS) pour la pollution, en ug/m3
+THRESHOLDS = {"pm25": 15, "pm10": 45, "no2": 25, "o3": 100, "so2": 40, "co": 4}
+
+
+# --------------------------------------------------------------------------- #
+# Wrappers compatibles toutes versions de Streamlit
+# --------------------------------------------------------------------------- #
+def safe_dataframe(df: pd.DataFrame, height: int | None = None) -> None:
+    """st.dataframe robuste (gere les differences d'API selon la version)."""
+    for kw in ({"use_container_width": True, "hide_index": True},
+               {"use_container_width": True}, {}):
+        try:
+            if height:
+                st.dataframe(df, height=height, **kw)
+            else:
+                st.dataframe(df, **kw)
+            return
+        except TypeError:
+            continue
+    st.dataframe(df)
+
+
+def safe_image(path: Path, caption: str) -> None:
+    if not path.exists():
+        return
+    for kw in ({"use_container_width": True}, {"use_column_width": True}, {}):
+        try:
+            st.image(str(path), caption=caption, **kw)
+            return
+        except TypeError:
+            continue
+
+
+def safe_map(df: pd.DataFrame) -> None:
+    try:
+        st.map(df, size=20)
+    except TypeError:
+        st.map(df)
 
 
 # --------------------------------------------------------------------------- #
@@ -52,12 +93,6 @@ bikes_df = load_parquet(str(config.PROC_CITYBIKES_DIR / "citybikes.parquet"))
 poll_df = load_parquet(str(config.PROC_OPENAQ_DIR / "pollution.parquet"))
 
 
-def show_img(name: str, caption: str) -> None:
-    p = REP / name
-    if p.exists():
-        st.image(str(p), caption=caption, use_container_width=True)
-
-
 def records_df(ind: dict, key: str) -> pd.DataFrame:
     data = ind.get(key)
     if isinstance(data, list) and data:
@@ -66,23 +101,70 @@ def records_df(ind: dict, key: str) -> pd.DataFrame:
 
 
 # --------------------------------------------------------------------------- #
-# En-tete + KPIs globaux
+# Barre laterale : FILTRES interactifs
+# --------------------------------------------------------------------------- #
+st.sidebar.title("🔎 Filtres")
+st.sidebar.caption("Les graphiques se recalculent selon vos sélections.")
+
+# Villes pollution
+poll_cities = sorted(poll_df["city"].dropna().unique().tolist()) if not poll_df.empty else []
+sel_poll_cities = st.sidebar.multiselect(
+    "Villes (pollution)", poll_cities, default=poll_cities)
+
+# Polluants
+pollutants_all = sorted(poll_df["parameter"].dropna().unique().tolist()) if not poll_df.empty else []
+sel_pollutants = st.sidebar.multiselect(
+    "Polluants", pollutants_all, default=pollutants_all)
+
+# Villes / reseaux velos
+bike_cities = sorted(bikes_df["city"].dropna().unique().tolist()) if not bikes_df.empty else []
+sel_bike_cities = st.sidebar.multiselect(
+    "Réseaux / villes (vélos)", bike_cities, default=bike_cities)
+
+# Villes meteo
+weather_cities = sorted(weather_df["city"].dropna().unique().tolist()) if not weather_df.empty else []
+sel_weather_cities = st.sidebar.multiselect(
+    "Villes (météo)", weather_cities, default=weather_cities)
+
+st.sidebar.divider()
+st.sidebar.caption("Régénérer les données :\n\n"
+                   "`python -m urbanhub.cli pipeline --demo --iot-backfill 72`")
+
+# Application des filtres
+poll_f = poll_df.copy()
+if not poll_f.empty:
+    if sel_poll_cities:
+        poll_f = poll_f[poll_f["city"].isin(sel_poll_cities)]
+    if sel_pollutants:
+        poll_f = poll_f[poll_f["parameter"].isin(sel_pollutants)]
+
+bikes_f = bikes_df.copy()
+if not bikes_f.empty and sel_bike_cities:
+    bikes_f = bikes_f[bikes_f["city"].isin(sel_bike_cities)]
+
+weather_f = weather_df.copy()
+if not weather_f.empty and sel_weather_cities:
+    weather_f = weather_f[weather_f["city"].isin(sel_weather_cities)]
+
+
+# --------------------------------------------------------------------------- #
+# En-tete + KPIs (reagissent aux filtres)
 # --------------------------------------------------------------------------- #
 st.title("🏙️ UrbanHub — Jumeau numérique urbain")
 st.caption("Plateforme Smart City : ingestion & analyse de 3 flux Big Data "
            "(Batch météo · Streaming vélos · IoT pollution)")
 
-if not any([weather_ind, mobility_ind, pollution_ind]):
+if weather_df.empty and bikes_df.empty and poll_df.empty:
     st.warning(
-        "Aucun indicateur trouvé. Lance d'abord le pipeline :\n\n"
+        "Aucune donnée trouvée. Lance d'abord le pipeline :\n\n"
         "`python -m urbanhub.cli pipeline --demo --iot-backfill 72`"
     )
 
 c1, c2, c3, c4 = st.columns(4)
-c1.metric("🌡️ Observations météo", f"{weather_ind.get('n_observations', 0):,}".replace(",", " "))
-c2.metric("🚲 Stations vélos", f"{mobility_ind.get('n_stations', 0):,}".replace(",", " "))
-c3.metric("🏭 Mesures pollution", f"{pollution_ind.get('n_mesures', 0):,}".replace(",", " "))
-c4.metric("🌍 Villes suivies", pollution_ind.get("n_villes", 0))
+c1.metric("🌡️ Observations météo", f"{len(weather_f):,}".replace(",", " "))
+c2.metric("🚲 Stations vélos", f"{bikes_f['station_id'].nunique() if not bikes_f.empty else 0:,}".replace(",", " "))
+c3.metric("🏭 Mesures pollution", f"{len(poll_f):,}".replace(",", " "))
+c4.metric("🌍 Villes (pollution)", poll_f["city"].nunique() if not poll_f.empty else 0)
 
 tab_meteo, tab_velos, tab_poll, tab_cross = st.tabs(
     ["🌡️ Météo (Batch)", "🚲 Mobilité (Streaming)", "🏭 Pollution (IoT)", "🔀 Analyse croisée"]
@@ -94,48 +176,53 @@ tab_meteo, tab_velos, tab_poll, tab_cross = st.tabs(
 # --------------------------------------------------------------------------- #
 with tab_meteo:
     st.subheader("Flux Batch — Météo NOAA (France)")
-    if weather_ind:
-        periode = weather_ind.get("periode", ["?", "?"])
-        st.caption(f"Période : {periode[0]} → {periode[1]} · "
-                   f"{weather_ind.get('n_stations', 0)} stations")
+    if not weather_f.empty:
+        st.caption(f"Période : {weather_f['timestamp'].min()} → "
+                   f"{weather_f['timestamp'].max()} · "
+                   f"{weather_f['station_id'].nunique()} stations · "
+                   f"villes : {', '.join(sel_weather_cities) or '—'}")
 
-    left, right = st.columns(2)
-    with left:
-        st.markdown("**Évolution saisonnière de la température (France)**")
-        season = weather_ind.get("q3_temperature_saisonniere_france", {})
-        if season:
+        k1, k2, k3 = st.columns(3)
+        k1.metric("🌡️ Température moyenne", f"{weather_f['temperature_c'].mean():.1f} °C")
+        k2.metric("💧 Humidité moyenne", f"{weather_f['humidity_pct'].mean():.0f} %")
+        k3.metric("🌬️ Vent max", f"{weather_f['wind_speed_ms'].max():.1f} m/s")
+
+        left, right = st.columns(2)
+        with left:
+            st.markdown("**Température moyenne par mois**")
+            monthly = weather_f.groupby(weather_f["timestamp"].dt.month)["temperature_c"].mean()
+            monthly.index.name = "mois"
+            st.line_chart(monthly)
+        with right:
+            st.markdown("**Température moyenne par saison**")
             order = ["Hiver", "Printemps", "Ete", "Automne"]
-            s = pd.Series(season).reindex([o for o in order if o in season])
-            st.bar_chart(s)
-        show_img("weather_saisonnier.png", "Cycle mensuel de la température")
-    with right:
-        st.markdown("**Corrélation des variables météo avec la visibilité**")
-        corr = weather_ind.get("q2_correlation_visibilite", {})
-        if corr:
-            st.bar_chart(pd.Series(corr))
-        show_img("weather_anomalies.png", "Anomalies de température (z-score)")
+            season = weather_f.groupby("season")["temperature_c"].mean()
+            season = season.reindex([o for o in order if o in season.index])
+            st.bar_chart(season)
 
-    st.markdown("**Jours aux conditions extrêmes**")
-    extremes = weather_ind.get("q4_jours_extremes", {})
-    if extremes:
-        rows = []
-        for k, v in extremes.items():
-            if isinstance(v, dict) and v:
-                metric = [kk for kk in v if kk != "day"]
-                rows.append({"Événement": k.replace("_", " "),
-                             "Date": v.get("day"),
-                             "Valeur": v.get(metric[0]) if metric else None})
-        if rows:
-            st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+        st.markdown("**Jours aux conditions extrêmes** (sur la sélection)")
+        wd = weather_f.assign(day=weather_f["timestamp"].dt.date)
+        daily = wd.groupby("day").agg(
+            tmax=("temperature_c", "max"), tmin=("temperature_c", "min"),
+            pluie=("precip_mm", "sum"), vent=("wind_speed_ms", "max")).reset_index()
+        if not daily.empty:
+            rows = [
+                {"Événement": "Jour le plus chaud", "Date": daily.loc[daily["tmax"].idxmax(), "day"],
+                 "Valeur": f"{daily['tmax'].max():.1f} °C"},
+                {"Événement": "Jour le plus froid", "Date": daily.loc[daily["tmin"].idxmin(), "day"],
+                 "Valeur": f"{daily['tmin'].min():.1f} °C"},
+                {"Événement": "Jour le plus pluvieux", "Date": daily.loc[daily["pluie"].idxmax(), "day"],
+                 "Valeur": f"{daily['pluie'].max():.1f} mm"},
+                {"Événement": "Jour le plus venté", "Date": daily.loc[daily["vent"].idxmax(), "day"],
+                 "Valeur": f"{daily['vent'].max():.1f} m/s"},
+            ]
+            safe_dataframe(pd.DataFrame(rows))
 
-    st.markdown("**Périodes météo anormales détectées** "
-                "(z-score ≥ 2.5 vs normale mensuelle)")
-    anom = weather_ind.get("q1_periodes_anormales", {})
-    an_df = records_df(anom, "top_anomalies")
-    if not an_df.empty:
-        st.dataframe(an_df, use_container_width=True, hide_index=True)
+        with st.expander("📊 Graphiques générés (rapports batch)"):
+            safe_image(REP / "weather_saisonnier.png", "Cycle mensuel de la température")
+            safe_image(REP / "weather_anomalies.png", "Anomalies de température (z-score)")
     else:
-        st.info(f"{anom.get('nombre_jours_anormaux', 0)} jour(s) anormal(aux).")
+        st.info("Aucune donnée météo (lance `batch` puis `process`).")
 
 
 # --------------------------------------------------------------------------- #
@@ -143,38 +230,58 @@ with tab_meteo:
 # --------------------------------------------------------------------------- #
 with tab_velos:
     st.subheader("Flux Streaming — Vélos en libre-service (CityBikes)")
-    if mobility_ind:
+    if not bikes_f.empty:
         m1, m2, m3 = st.columns(3)
-        m1.metric("Réseaux", mobility_ind.get("n_reseaux", 0))
-        m2.metric("Stations", f"{mobility_ind.get('n_stations', 0):,}".replace(",", " "))
-        m3.metric("Snapshots collectés", mobility_ind.get("n_snapshots", 0))
+        m1.metric("Réseaux", bikes_f["network_id"].nunique())
+        m2.metric("Stations", f"{bikes_f['station_id'].nunique():,}".replace(",", " "))
+        m3.metric("Vélos dispo (moyenne)", f"{bikes_f['bikes_available'].mean():.1f}")
 
-    if not bikes_df.empty and {"latitude", "longitude"}.issubset(bikes_df.columns):
-        st.markdown("**Carte des stations vélos (dernier snapshot)**")
-        last_ts = bikes_df["timestamp"].max()
-        geo = bikes_df[bikes_df["timestamp"] == last_ts][["latitude", "longitude"]].dropna()
-        if not geo.empty:
-            st.map(geo, size=20)
+        if {"latitude", "longitude"}.issubset(bikes_f.columns):
+            st.markdown("**Carte des stations vélos (dernier snapshot)**")
+            last_ts = bikes_f["timestamp"].max()
+            geo = bikes_f[bikes_f["timestamp"] == last_ts][["latitude", "longitude"]].dropna()
+            if not geo.empty:
+                safe_map(geo)
 
-    left, right = st.columns(2)
-    with left:
-        st.markdown("**Stations les plus sollicitées** (taux d'occupation)")
-        df = records_df(mobility_ind, "q1_stations_plus_utilisees")
-        if not df.empty:
-            st.dataframe(df, use_container_width=True, hide_index=True, height=300)
-        show_img("mobility_profil_horaire.png", "Profil horaire de disponibilité")
-    with right:
-        st.markdown("**Stations critiques à rééquilibrer** (pénurie / saturation)")
-        df = records_df(mobility_ind, "q5_stations_critiques")
-        if not df.empty:
-            st.dataframe(df, use_container_width=True, hide_index=True, height=300)
-        else:
-            st.info("Pas de station critique détectée sur cet échantillon.")
+        # Agregation par station
+        per_station = bikes_f.groupby(["city", "station_name"]).agg(
+            occupancy_rate=("occupancy_rate", "mean"),
+            bikes_available=("bikes_available", "mean"),
+            capacity=("capacity", "mean"),
+            pct_empty=("is_empty", "mean"),
+            pct_full=("is_full", "mean")).reset_index()
 
-    st.markdown("**Déséquilibres par ville**")
-    df = records_df(mobility_ind, "q4_desequilibres_villes")
-    if not df.empty:
-        st.dataframe(df, use_container_width=True, hide_index=True)
+        left, right = st.columns(2)
+        with left:
+            st.markdown("**Stations les plus sollicitées** (taux d'occupation)")
+            top = per_station.sort_values("occupancy_rate", ascending=False).head(15)
+            safe_dataframe(top.round(3), height=320)
+        with right:
+            st.markdown("**Stations critiques à rééquilibrer**")
+            per_station["criticite"] = per_station[["pct_empty", "pct_full"]].max(axis=1)
+            per_station["type"] = per_station.apply(
+                lambda r: "pénurie (vide)" if r["pct_empty"] >= r["pct_full"]
+                else "saturation (pleine)", axis=1)
+            crit = per_station[per_station["criticite"] >= 0.5].sort_values(
+                "criticite", ascending=False).head(15)
+            if not crit.empty:
+                safe_dataframe(crit[["city", "station_name", "type", "criticite",
+                                     "capacity"]].round(3), height=320)
+            else:
+                st.info("Pas de station critique sur la sélection.")
+
+        st.markdown("**Disponibilité moyenne par ville / réseau**")
+        per_city = per_station.groupby("city").agg(
+            stations=("station_name", "nunique"),
+            occupation=("occupancy_rate", "mean"),
+            pct_vide=("pct_empty", "mean")).reset_index().sort_values(
+            "stations", ascending=False)
+        safe_dataframe(per_city.round(3))
+
+        with st.expander("📊 Graphique généré (profil horaire)"):
+            safe_image(REP / "mobility_profil_horaire.png", "Profil horaire de disponibilité")
+    else:
+        st.info("Aucune donnée vélos (lance `stream` puis `process`).")
 
 
 # --------------------------------------------------------------------------- #
@@ -182,37 +289,43 @@ with tab_velos:
 # --------------------------------------------------------------------------- #
 with tab_poll:
     st.subheader("Flux IoT — Pollution atmosphérique (OpenAQ)")
-    mode = pollution_ind.get("mode_source", [])
-    if mode:
-        st.caption(f"Source des mesures : {', '.join(mode)} · "
-                   f"Polluants : {', '.join(pollution_ind.get('polluants', []))}")
+    if not poll_f.empty:
+        mode = sorted(poll_f["source"].dropna().unique().tolist()) if "source" in poll_f else []
+        st.caption(f"Source : {', '.join(mode) or '—'} · "
+                   f"Polluants : {', '.join(sel_pollutants) or '—'}")
 
-    left, right = st.columns(2)
-    with left:
-        st.markdown("**Classement des villes par niveau de pollution**")
-        aqi = pollution_ind.get("q4_indice_qualite_air", {}).get("classement", [])
-        if aqi:
-            aqi_df = pd.DataFrame(aqi).set_index("city")["indice"]
-            st.bar_chart(aqi_df)
-        show_img("pollution_classement_villes.png", "Indice qualité de l'air par ville")
-    with right:
-        st.markdown("**Profil horaire des polluants**")
-        hp = records_df(pollution_ind, "q2_profil_horaire")
-        if not hp.empty and "h" in hp.columns:
-            st.line_chart(hp.set_index("h"))
+        left, right = st.columns(2)
+        with left:
+            st.markdown("**Concentration moyenne par ville** (µg/m³)")
+            by_city = poll_f.groupby("city")["value"].mean().sort_values(ascending=False)
+            st.bar_chart(by_city)
+        with right:
+            st.markdown("**Profil horaire des polluants**")
+            hourly = (poll_f.assign(h=poll_f["timestamp"].dt.hour)
+                      .groupby(["h", "parameter"])["value"].mean().unstack("parameter"))
+            if not hourly.empty:
+                st.line_chart(hourly)
 
-    st.markdown("**Concentration moyenne par ville et polluant** (µg/m³)")
-    df = records_df(pollution_ind, "q1_moyenne_par_ville")
-    if not df.empty:
-        st.dataframe(df, use_container_width=True, hide_index=True)
+        st.markdown("**Concentration moyenne par ville et polluant** (µg/m³)")
+        pivot = poll_f.groupby(["city", "parameter"])["value"].mean().unstack("parameter")
+        safe_dataframe(pivot.round(2).reset_index())
 
-    st.markdown("**Dépassements de seuils** (référentiel OMS indicatif)")
-    dep = pollution_ind.get("q3_depassements_seuils", {})
-    if dep:
-        st.caption(f"Total dépassements : {dep.get('total_depassements', 0)}")
-        top = pd.DataFrame(dep.get("top", []))
-        if not top.empty:
-            st.dataframe(top, use_container_width=True, hide_index=True)
+        st.markdown("**Dépassements de seuils** (référentiel OMS indicatif)")
+        pf = poll_f.copy()
+        pf["seuil"] = pf["parameter"].map(THRESHOLDS)
+        pf["depasse"] = pf["value"] > pf["seuil"]
+        total = int(pf["depasse"].sum())
+        st.metric("Total de dépassements", total)
+        exceed = (pf[pf["depasse"]].groupby(["city", "parameter"]).size()
+                  .reset_index(name="nb_dépassements")
+                  .sort_values("nb_dépassements", ascending=False).head(15))
+        if not exceed.empty:
+            safe_dataframe(exceed)
+
+        with st.expander("📊 Graphique généré (classement des villes)"):
+            safe_image(REP / "pollution_classement_villes.png", "Indice qualité de l'air")
+    else:
+        st.info("Aucune donnée pollution (lance `iot --backfill-hours 72` puis `process`).")
 
 
 # --------------------------------------------------------------------------- #
@@ -233,21 +346,24 @@ with tab_cross:
     if q1.get("disponible"):
         corr = q1.get("correlations", {})
         if corr:
-            mat = pd.DataFrame(corr).T.round(2)  # lignes = polluants, colonnes = météo
-            st.dataframe(mat, use_container_width=True)
+            mat = pd.DataFrame(corr).T.round(2)
+            safe_dataframe(mat.reset_index().rename(columns={"index": "polluant"}))
             st.caption("Corrélation forte attendue : Ozone (O₃) ↔ température "
                        "(formation photochimique).")
     else:
         st.info("Recouvrement insuffisant — lance un backfill IoT plus long.")
 
-    show_img("cross_cycle_diurne.png", "Cycle diurne conjoint météo × pollution × mobilité")
+    with st.expander("📊 Cycle diurne croisé (graphique généré)"):
+        safe_image(REP / "cross_cycle_diurne.png",
+                   "Cycle diurne conjoint météo × pollution × mobilité")
 
     st.markdown("### Q2 — La météo influence-t-elle l'usage des vélos ?")
     q2 = cross_ind.get("q2_meteo_velos", {})
     if q2.get("disponible"):
         corr = q2.get("correlations", {})
         if corr:
-            st.dataframe(pd.DataFrame(corr).T.round(2), use_container_width=True)
+            safe_dataframe(pd.DataFrame(corr).T.round(2).reset_index().rename(
+                columns={"index": "cible"}))
     else:
         st.info("Nécessite que le flux vélos ait tourné sur l'ensemble de la "
                 "journée (ex. `stream --iterations 1440 --interval 60`).")
@@ -263,5 +379,5 @@ with tab_cross:
             cB.bar_chart(pd.Series(saison))
 
 st.divider()
-st.caption("UrbanHub · données data lake `data/curated` · "
+st.caption("UrbanHub · données data lake `data/curated` & `data/processed` · "
            "régénérer : `python -m urbanhub.cli pipeline --demo --iot-backfill 72`")
