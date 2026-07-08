@@ -1,0 +1,7 @@
+# UrbanHub - Smart City Digital Twin
+# Core data engineering / analysis stack
+pandas>=2.1
+numpy>=1.26
+pyarrow>=14.0
+requests>=2.31
+matplotlib>=3.8
