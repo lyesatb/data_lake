@@ -62,6 +62,39 @@ def safe_map(df: pd.DataFrame) -> None:
         st.map(df)
 
 
+def dropdown_checkboxes(label: str, options: list, key: str) -> list:
+    """Liste deroulante (repliable) a cases a cocher multiples.
+
+    Rend un menu deroulant dans la barre laterale contenant une case par option
+    + deux boutons "Tout" / "Aucun". Retourne la liste des options cochees.
+    Compatible avec toutes les versions de Streamlit (n'utilise que expander,
+    button, checkbox et session_state).
+    """
+    if not options:
+        return []
+
+    def _set_all(value: bool):
+        for opt in options:
+            st.session_state[f"{key}__{opt}"] = value
+
+    # Etat courant (defaut : tout coche) pour afficher le compteur dans l'entete
+    preview = [o for o in options if st.session_state.get(f"{key}__{o}", True)]
+    header = f"{label} — {len(preview)}/{len(options)}"
+
+    with st.sidebar.expander(header, expanded=False):
+        c1, c2 = st.columns(2)
+        c1.button("Tout", key=f"{key}_all", on_click=_set_all, args=(True,))
+        c2.button("Aucun", key=f"{key}_none", on_click=_set_all, args=(False,))
+        selected = []
+        for opt in options:
+            cbkey = f"{key}__{opt}"
+            if cbkey not in st.session_state:
+                st.session_state[cbkey] = True
+            if st.checkbox(str(opt), key=cbkey):
+                selected.append(opt)
+    return selected
+
+
 # --------------------------------------------------------------------------- #
 # Chargement des donnees (avec cache)
 # --------------------------------------------------------------------------- #
@@ -104,27 +137,20 @@ def records_df(ind: dict, key: str) -> pd.DataFrame:
 # Barre laterale : FILTRES interactifs
 # --------------------------------------------------------------------------- #
 st.sidebar.title("🔎 Filtres")
-st.sidebar.caption("Les graphiques se recalculent selon vos sélections.")
+st.sidebar.caption("Menus déroulants à cases à cocher. "
+                   "Les graphiques se recalculent selon vos sélections.")
 
-# Villes pollution
 poll_cities = sorted(poll_df["city"].dropna().unique().tolist()) if not poll_df.empty else []
-sel_poll_cities = st.sidebar.multiselect(
-    "Villes (pollution)", poll_cities, default=poll_cities)
+sel_poll_cities = dropdown_checkboxes("Villes (pollution)", poll_cities, "pollcity")
 
-# Polluants
 pollutants_all = sorted(poll_df["parameter"].dropna().unique().tolist()) if not poll_df.empty else []
-sel_pollutants = st.sidebar.multiselect(
-    "Polluants", pollutants_all, default=pollutants_all)
+sel_pollutants = dropdown_checkboxes("Polluants", pollutants_all, "pollutant")
 
-# Villes / reseaux velos
 bike_cities = sorted(bikes_df["city"].dropna().unique().tolist()) if not bikes_df.empty else []
-sel_bike_cities = st.sidebar.multiselect(
-    "Réseaux / villes (vélos)", bike_cities, default=bike_cities)
+sel_bike_cities = dropdown_checkboxes("Réseaux / villes (vélos)", bike_cities, "bikecity")
 
-# Villes meteo
 weather_cities = sorted(weather_df["city"].dropna().unique().tolist()) if not weather_df.empty else []
-sel_weather_cities = st.sidebar.multiselect(
-    "Villes (météo)", weather_cities, default=weather_cities)
+sel_weather_cities = dropdown_checkboxes("Villes (météo)", weather_cities, "wxcity")
 
 st.sidebar.divider()
 st.sidebar.caption("Régénérer les données :\n\n"
