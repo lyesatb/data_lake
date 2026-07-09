@@ -7,3 +7,5 @@ requests>=2.31
 matplotlib>=3.8
 # Tableau de bord interactif
 streamlit>=1.30
+# Génération de la présentation PowerPoint
+python-pptx>=0.6.21

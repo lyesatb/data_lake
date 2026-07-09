@@ -88,7 +88,18 @@ python -m urbanhub.cli pipeline --demo
 # Tableau de bord interactif (après avoir généré les indicateurs)
 python -m urbanhub.cli dashboard          # ouvre http://localhost:8501
 # équivalent : streamlit run urbanhub/dashboard/app.py
+
+# Présentation PowerPoint de soutenance (.pptx)
+python -m urbanhub.cli slides             # -> data/curated/reports/UrbanHub_presentation.pptx
 ```
+
+### Présentation (PowerPoint)
+
+La commande `slides` génère automatiquement une présentation `.pptx` (10
+diapositives, format 16:9) à partir des **indicateurs réels** du data lake et des
+graphiques générés : contexte, architecture, chiffres clés, une diapositive par
+flux (Batch / Streaming / IoT), analyse croisée, tableau de bord et conclusion.
+Le fichier est écrit dans `data/curated/reports/UrbanHub_presentation.pptx`.
 
 ### Tableau de bord (Streamlit)
 
@@ -257,6 +268,7 @@ physiquement pertinent (cycles jour/nuit, pointes de trafic, photochimie).
 | Analyse data / IA | `urbanhub/analysis/` |
 | Indicateurs urbains | `data/curated/indicators/` + `data/curated/reports/` |
 | Tableau de bord | `urbanhub/dashboard/app.py` (Streamlit) |
+| Présentation | `data/curated/reports/UrbanHub_presentation.pptx` (via `urbanhub/presentation.py`) |
 | Orchestration | `urbanhub/cli.py` |
 
 ## Structure du projet

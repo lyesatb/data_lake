@@ -81,6 +81,16 @@ def cmd_analyze(_args) -> None:
     log.info("Indicateurs ecrits sous : %s", config.INDICATORS_DIR)
 
 
+def cmd_slides(args) -> None:
+    """Genere la presentation PowerPoint (.pptx)."""
+    from urbanhub import presentation
+    from pathlib import Path
+    config.ensure_dirs()
+    out = Path(args.output) if args.output else None
+    path = presentation.build(out)
+    log.info("Présentation prête : %s", path)
+
+
 def cmd_dashboard(args) -> None:
     """Lance le tableau de bord interactif Streamlit."""
     import subprocess
@@ -164,6 +174,10 @@ def build_parser() -> argparse.ArgumentParser:
     db = sub.add_parser("dashboard", help="Lance le tableau de bord Streamlit")
     db.add_argument("--port", type=int, default=8501)
     db.set_defaults(func=cmd_dashboard)
+
+    sl = sub.add_parser("slides", help="Génère la présentation PowerPoint (.pptx)")
+    sl.add_argument("--output", type=str, default=None)
+    sl.set_defaults(func=cmd_slides)
 
     pl = sub.add_parser("pipeline", help="Chaine complete de demonstration")
     pl.add_argument("--demo", action="store_true", help="Mode demo (perimetre reduit)")
