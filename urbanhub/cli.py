@@ -91,6 +91,16 @@ def cmd_slides(args) -> None:
     log.info("Présentation prête : %s", path)
 
 
+def cmd_doc(args) -> None:
+    """Genere le document Word des reponses aux questions metier."""
+    from urbanhub import report_doc
+    from pathlib import Path
+    config.ensure_dirs()
+    out = Path(args.output) if args.output else None
+    path = report_doc.build(out)
+    log.info("Document prêt : %s", path)
+
+
 def cmd_dashboard(args) -> None:
     """Lance le tableau de bord interactif Streamlit."""
     import subprocess
@@ -178,6 +188,10 @@ def build_parser() -> argparse.ArgumentParser:
     sl = sub.add_parser("slides", help="Génère la présentation PowerPoint (.pptx)")
     sl.add_argument("--output", type=str, default=None)
     sl.set_defaults(func=cmd_slides)
+
+    dc = sub.add_parser("doc", help="Génère le document Word des réponses aux questions métier")
+    dc.add_argument("--output", type=str, default=None)
+    dc.set_defaults(func=cmd_doc)
 
     pl = sub.add_parser("pipeline", help="Chaine complete de demonstration")
     pl.add_argument("--demo", action="store_true", help="Mode demo (perimetre reduit)")

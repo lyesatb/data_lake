@@ -91,6 +91,9 @@ python -m urbanhub.cli dashboard          # ouvre http://localhost:8501
 
 # Présentation PowerPoint de soutenance (.pptx)
 python -m urbanhub.cli slides             # -> data/curated/reports/UrbanHub_presentation.pptx
+
+# Document Word des réponses aux questions métier (.docx + .md)
+python -m urbanhub.cli doc                # -> data/curated/reports/UrbanHub_reponses_questions_metier.docx
 ```
 
 ### Présentation (PowerPoint)
@@ -269,6 +272,7 @@ physiquement pertinent (cycles jour/nuit, pointes de trafic, photochimie).
 | Indicateurs urbains | `data/curated/indicators/` + `data/curated/reports/` |
 | Tableau de bord | `urbanhub/dashboard/app.py` (Streamlit) |
 | Présentation | `data/curated/reports/UrbanHub_presentation.pptx` (via `urbanhub/presentation.py`) |
+| Réponses aux questions métier | `docs/REPONSES_QUESTIONS_METIER.md` + `.docx` (via `urbanhub/report_doc.py`) |
 | Orchestration | `urbanhub/cli.py` |
 
 ## Structure du projet
