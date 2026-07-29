@@ -1,0 +1,5 @@
+# Demo QuestDB
+questdb>=2.0        # client d'ingestion ILP haute performance
+psycopg2-binary>=2.9  # acces via le protocole PostgreSQL wire (port 8812)
+requests>=2.31     # appels a l'API REST (/exec, /imp)
+matplotlib>=3.8    # graphique du cycle diurne

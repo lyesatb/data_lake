@@ -1,0 +1,35 @@
+name: urbanhub-questdb
+
+# Deploiement QuestDB (couche Speed/Serving d'une architecture Big Data).
+# Lancement :  docker compose up -d
+# Console web : http://localhost:9000
+
+services:
+  questdb:
+    image: questdb/questdb:8.2.1
+    container_name: questdb
+    restart: unless-stopped
+    ports:
+      - "9000:9000"   # Console web + API REST (import/export, /exec)
+      - "8812:8812"   # Protocole PostgreSQL wire (psql, JDBC, BI)
+      - "9009:9009"   # ILP - ingestion haute performance (InfluxDB Line Protocol)
+    environment:
+      # Desactive la telemetrie
+      QDB_TELEMETRY_ENABLED: "false"
+      # Identifiants du protocole PostgreSQL
+      QDB_PG_USER: "admin"
+      QDB_PG_PASSWORD: "quest"
+      # Budgets memoire (a adapter a la machine)
+      QDB_SHARED_WORKER_COUNT: "2"
+    volumes:
+      - questdb_data:/var/lib/questdb
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:9000 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 20s
+
+volumes:
+  questdb_data:
+    driver: local
