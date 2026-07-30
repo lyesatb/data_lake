@@ -1,86 +1,72 @@
-# Big Data — Veille technologique : QuestDB
+# Projet Archi Big Data — UrbanHub + Veille technologique
 
-Projet **« Présenter une techno pour un Meetup »** (Data Architect).
-Analyse d'un outil open source du paysage Big Data : **[QuestDB](https://questdb.io)**,
-une base de données **time-series** haute performance, positionnée comme couche
-**Speed / Serving** d'une architecture Big Data (en lien avec le projet UrbanHub).
+Livrable du TP **« Architecture Big Data »** (Recording + Lien GitHub + Veille).
+Ce dépôt regroupe **tout ce qui est demandé** pour ce projet, en deux parties :
 
-> Ce dépôt est **séparé** du projet UrbanHub (data lake) : il est dédié à la veille
-> technologique et au déploiement Docker / Kubernetes de QuestDB.
+1. **Architecture Big Data** — re-présentation d'UrbanHub avec une architecture
+   Lambda (couches **Batch / Speed / Serving**) et **justification des choix de
+   technologies open source**.
+2. **Veille technologique** — analyse d'un outil open source du paysage Big Data :
+   **QuestDB** (base time-series), avec démonstration réelle et déploiement
+   **Docker / Kubernetes**.
 
-## Livrables
+---
 
-| Livrable | Emplacement |
-|----------|-------------|
-| **Document de synthèse (veille)** | [`docs/VEILLE_QUESTDB.md`](docs/VEILLE_QUESTDB.md) |
-| **Résultats réels de la démo** | [`results/DEMO_OUTPUT.md`](results/DEMO_OUTPUT.md) |
-| **Déploiement Docker** | [`docker/docker-compose.yml`](docker/docker-compose.yml) |
-| **Déploiement Kubernetes** | [`k8s/questdb.yaml`](k8s/questdb.yaml) |
-| **Scripts de démonstration** | [`demo/`](demo/) |
+## Livrables & où les trouver
 
-Le document de synthèse couvre : cas d'usage, prise en main (install, CLI, UI,
-ingestion, requêtes), forces/faiblesses, comparaison avec les concurrents
-(InfluxDB, TimescaleDB, ClickHouse, Cassandra), architecture, et déploiement
-Docker/Kubernetes.
+| Livrable demandé | Emplacement |
+|------------------|-------------|
+| **Architecture Big Data (Batch/Speed/Serving) + « pourquoi telle techno »** | [`architecture/ARCHITECTURE_BIGDATA.md`](architecture/ARCHITECTURE_BIGDATA.md) |
+| Schéma d'architecture | [`architecture/architecture_bigdata.png`](architecture/architecture_bigdata.png) |
+| **Veille technologique (document de synthèse)** | [`docs/VEILLE_QUESTDB.md`](docs/VEILLE_QUESTDB.md) |
+| Résultats réels de la démo QuestDB | [`results/DEMO_OUTPUT.md`](results/DEMO_OUTPUT.md) |
+| Déploiement **Docker** | [`docker/docker-compose.yml`](docker/docker-compose.yml) |
+| Déploiement **Kubernetes** | [`k8s/questdb.yaml`](k8s/questdb.yaml) |
+| Scripts de démo (ingestion ILP + requêtes SQL) | [`demo/`](demo/) |
+| Support de présentation (source Gamma) | [`presentation/`](presentation/) |
 
-## Démarrage rapide
+---
 
-### 1. Lancer QuestDB (Docker)
+## Partie 1 — Architecture Big Data
 
-```bash
-cd docker
-docker compose up -d
-# Console web : http://localhost:9000
+UrbanHub est un **jumeau numérique urbain** (Smart City) qui ingère trois flux :
+- **Batch** : météo NOAA (5 ans) ;
+- **Streaming** : vélos CityBikes (temps réel) ;
+- **IoT** : pollution OpenAQ (capteurs).
+
+L'architecture cible est une **architecture Lambda** :
+
+```
+Sources → Ingestion (Kafka) → Data Lake (MinIO/Parquet)
+        → Couche Batch (Spark)  ┐
+        → Couche Speed (Spark Streaming → QuestDB)  ├─→ Couche Serving (QuestDB + PostgreSQL)
+                                                     ┘        → Restitution (Streamlit / Grafana)
+        Orchestration : Apache Airflow
 ```
 
-### 2. Charger des données et lancer les requêtes
+Le document [`architecture/ARCHITECTURE_BIGDATA.md`](architecture/ARCHITECTURE_BIGDATA.md)
+détaille chaque couche et **justifie chaque techno open source face à ses
+concurrentes** (Kafka vs RabbitMQ/Pulsar, MinIO vs HDFS, Parquet vs CSV/Avro/ORC,
+Spark vs MapReduce/Dask, QuestDB vs InfluxDB/Cassandra, Airflow vs cron).
 
+## Partie 2 — Veille technologique : QuestDB
+
+Analyse complète (cas d'usage, prise en main, forces/faiblesses, comparatif,
+architecture, déploiement) dans [`docs/VEILLE_QUESTDB.md`](docs/VEILLE_QUESTDB.md).
+
+Démarrage de la démo :
 ```bash
-cd demo
-pip install -r requirements.txt
-python generate_and_ingest.py --days 30 --freq-min 30   # ingestion via ILP
+cd docker && docker compose up -d           # console : http://localhost:9000
+cd ../demo && pip install -r requirements.txt
+python generate_and_ingest.py --days 30 --freq-min 30   # ingestion ILP (~500k+ lignes/s)
 python run_queries.py                                    # requêtes -> results/DEMO_OUTPUT.md
-python plot_results.py                                   # graphique du cycle diurne
 ```
 
-### 3. (Optionnel) Déployer sur Kubernetes
+---
 
-```bash
-kubectl apply -f k8s/questdb.yaml
-kubectl -n bigdata port-forward svc/questdb 9000:9000 8812:8812 9009:9009
-```
+## Note
 
-## Ce que démontre la démo
-
-- **Ingestion streaming** via ILP mesurée à **~500 000–600 000 lignes/seconde**.
-- Requêtes **time-series** natives : `SAMPLE BY`, `LATEST ON`, `ASOF JOIN`, `FILL`.
-- Compatibilité **PostgreSQL wire** (port 8812) → outils BI / `psql`.
-- Un cas concret « Smart City » : corrélation ozone ↔ température, pics de NO₂,
-  dépassements de seuils OMS.
-
-## Structure du dépôt
-
-```
-big_data/
-├── README.md
-├── docs/
-│   ├── VEILLE_QUESTDB.md        # le rapport de synthèse
-│   └── images/diurnal_profile.png
-├── demo/
-│   ├── generate_and_ingest.py   # génération + ingestion ILP
-│   ├── run_queries.py           # requêtes -> Markdown
-│   ├── plot_results.py          # graphique
-│   ├── queries.sql              # requêtes commentées
-│   └── requirements.txt
-├── docker/
-│   └── docker-compose.yml
-├── k8s/
-│   └── questdb.yaml
-└── results/
-    └── DEMO_OUTPUT.md           # sorties réelles des requêtes
-```
-
-## Outil étudié
-
-**QuestDB** — base de données time-series open source (Apache 2.0), écrite en
-Java/C++, orientée IoT / monitoring / finance. Version utilisée : **8.2.1**.
+Le **projet d'implémentation complet d'UrbanHub** (code Python d'ingestion,
+traitement et analyse, tableau de bord Streamlit) constitue le prototype
+exécutable de la logique métier ; il est disponible séparément. Ce dépôt-ci se
+concentre sur le **livrable Archi Big Data + Veille** demandé pour ce TP.
