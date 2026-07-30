@@ -101,6 +101,16 @@ def cmd_doc(args) -> None:
     log.info("Document prêt : %s", path)
 
 
+def cmd_gamma(args) -> None:
+    """Genere le document Word complet (source pour Gamma) avec les images."""
+    from urbanhub import gamma_doc
+    from pathlib import Path
+    config.ensure_dirs()
+    out = Path(args.output) if args.output else None
+    path = gamma_doc.build(out)
+    log.info("Document Gamma prêt : %s", path)
+
+
 def cmd_dashboard(args) -> None:
     """Lance le tableau de bord interactif Streamlit."""
     import subprocess
@@ -192,6 +202,10 @@ def build_parser() -> argparse.ArgumentParser:
     dc = sub.add_parser("doc", help="Génère le document Word des réponses aux questions métier")
     dc.add_argument("--output", type=str, default=None)
     dc.set_defaults(func=cmd_doc)
+
+    gm = sub.add_parser("gamma", help="Génère le document Word complet (source pour Gamma)")
+    gm.add_argument("--output", type=str, default=None)
+    gm.set_defaults(func=cmd_gamma)
 
     pl = sub.add_parser("pipeline", help="Chaine complete de demonstration")
     pl.add_argument("--demo", action="store_true", help="Mode demo (perimetre reduit)")
