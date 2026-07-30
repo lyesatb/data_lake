@@ -1,8 +1,6 @@
-# AIT TAYEB LYES 
-# DZIRI RAYANE
-# HAMMA SOFIANE
-# LEKOUARA ABDELRAFIK
+**Équipe : AIT TAYEB LYES · DZIRI RAYANE · HAMMA SOFIANE · LEKOUARA ABDELRAFIK**
 
+> 📦 **À rendre au prof ? → voir [`LIVRABLES.md`](LIVRABLES.md)** (lien GitHub, recording, veille — tout au même endroit).
 
 # UrbanHub — Jumeau numérique urbain (Smart City Data Platform)
 
