@@ -51,6 +51,18 @@ data/
 Le partitionnement par date (`year=/month=/day=`) suit la convention Hive,
 standard des data lakes, et permet un traitement incrémental efficace.
 
+## Architecture Big Data (Lambda)
+
+Au-delà du prototype (Python/pandas), UrbanHub est pensé comme une **plateforme
+Big Data** capable d'**ingérer, stocker, transformer et restituer** des données à
+grande échelle, **en batch et en temps réel** (architecture **Lambda**). Le
+document [`docs/ARCHITECTURE_BIGDATA.md`](docs/ARCHITECTURE_BIGDATA.md) détaille
+les couches (Batch / Speed / Serving), les technologies open source retenues
+(Kafka, MinIO, Spark, QuestDB, Streamlit/Grafana, Airflow) et **justifie chaque
+choix face à ses concurrentes**.
+
+![Architecture Big Data](docs/images/architecture_bigdata.png)
+
 ## Installation
 
 ```bash
@@ -273,6 +285,7 @@ physiquement pertinent (cycles jour/nuit, pointes de trafic, photochimie).
 | Tableau de bord | `urbanhub/dashboard/app.py` (Streamlit) |
 | Présentation | `data/curated/reports/UrbanHub_presentation.pptx` (via `urbanhub/presentation.py`) |
 | Réponses aux questions métier | `docs/REPONSES_QUESTIONS_METIER.md` + `.docx` (via `urbanhub/report_doc.py`) |
+| **Architecture Big Data (Lambda) + justification des choix** | `docs/ARCHITECTURE_BIGDATA.md` (schéma via `urbanhub/architecture_diagram.py`) |
 | Orchestration | `urbanhub/cli.py` |
 
 ## Structure du projet

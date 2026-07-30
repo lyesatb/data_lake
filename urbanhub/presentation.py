@@ -210,6 +210,19 @@ def build(output: Path | None = None) -> Path:
           "via les API publiques NOAA, CityBikes et OpenAQ.",
           size=15, color=GREY)
 
+    # ---- 4bis. Architecture Big Data (Lambda) ----------------------------- #
+    s = _blank(prs)
+    _content_header(s, "ARCHITECTURE BIG DATA", "Une architecture Lambda (Batch + Temps réel)")
+    if not _add_image(s, rep / "architecture_bigdata.png", Emu(500000), Emu(1450000),
+                      w=Emu(11200000)):
+        _text(s, Emu(600000), Emu(2600000), Emu(11000000), Emu(600000),
+              "(schéma d'architecture Big Data)", size=12, color=GREY, align=PP_ALIGN.CENTER)
+    _text(s, Emu(500000), Emu(6350000), Emu(11200000), Emu(700000),
+          "Ingérer (Kafka) · Stocker (data lake MinIO/Parquet) · Transformer "
+          "(Spark batch + Structured Streaming) · Restituer (QuestDB + Streamlit/Grafana). "
+          "Chaque techno open source est choisie face à ses concurrentes.",
+          size=12, color=GREY)
+
     # ---- 5. Partie 1 : Batch météo ---------------------------------------- #
     s = _blank(prs)
     _content_header(s, "PARTIE 1 · FLUX BATCH", "Analyse météorologique urbaine (NOAA)")
